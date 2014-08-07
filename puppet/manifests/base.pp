@@ -9,4 +9,4 @@ maven::setup { "maven":
   deploymentdir => '/home/vagrant/apps/apache-maven',
   user          => 'vagrant',
   pathfile      => '/home/vagrant/.bashrc'
- }
+}
