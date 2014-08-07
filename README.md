@@ -25,8 +25,8 @@ Build a basic Vagrant box set for Java development with JDK and Maven via puppet
 * Get Maven
 
   ```bash
+   mkdir puppet/modules/maven/files
    curl -o puppet/modules/maven/files/apache-maven-3.1.1-bin.tar.gz http://www.trieuvan.com/apache/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz
-
   ```
 * Fire up Vagrant
 
