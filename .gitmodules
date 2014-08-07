@@ -16,3 +16,6 @@
 [submodule "puppet/modules/maven"]
 	path = puppet/modules/maven
 	url = https://github.com/7terminals/puppet-maven
+[submodule "puppet/modules/mongodb"]
+	path = puppet/modules/mongodb
+	url = https://github.com/puppetlabs/puppetlabs-mongodb.git
