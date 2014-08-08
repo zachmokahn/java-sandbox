@@ -6,7 +6,7 @@ class { 'java':
 maven::setup { "maven":
   ensure        => 'present',
   source        => 'apache-maven-3.1.1-bin.tar.gz',
-  deploymentdir => '/home/vagrant/apps/apache-maven',
+  deploymentdir => '/home/vagrant/apache-maven',
   user          => 'vagrant',
   pathfile      => '/home/vagrant/.bashrc'
 }
