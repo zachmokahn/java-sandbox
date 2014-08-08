@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git submodule update --init
+mkdir puppet/modules/maven/files
+curl -o puppet/modules/maven/files/apache-maven-3.1.1-bin.tar.gz http://www.trieuvan.com/apache/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz
