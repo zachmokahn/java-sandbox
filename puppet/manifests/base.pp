@@ -1,9 +1,9 @@
+include tomcat
+
 class { 'java':
   distribution => 'jdk',
   version      => 'latest',
 }
-
-class { 'tomcat': }
 
 maven::setup { "maven":
   ensure        => 'present',
@@ -13,13 +13,26 @@ maven::setup { "maven":
   pathfile      => '/home/vagrant/.bashrc'
 }
 
-tomcat::instance { 'tomcat':
-  install_from_source => false,
-  package_name        => 'tomcat'
+tomcat::install { 'tomcat':
+  source        => 'apache-tomcat-7.0.55.tar.gz',
+  deploymentdir => '/home/vagrant/apache-tomcat',
+  user          => 'vagrant',
+  group         => 'vagrant',
+  default_webapp_docs        => 'present',
+  default_webapp_examples    => 'present',
+  default_webapp_hostmanager => 'present',
+  default_webapp_manager     => 'present',
+  default_webapp_root        => 'present'
 }
 
-tomcat::service { 'tomcat':
-  use_jsvc     => false,
-  use_init     => true,
-  service_name => 'tomcat'
-}
+file { '/home/vagrant/apps/warfiles':
+   ensure => 'link',
+   target => '/home/vagrant/apache-tomcat/webapps',
+ }
+
+file { '/usr/local/bin/catalina':
+   ensure => 'link',
+   target => '/home/vagrant/apache-tomcat/bin/catalina.sh',
+ }
+
+import "custom.pp"
