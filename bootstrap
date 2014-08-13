@@ -1,5 +1,9 @@
 #!/bin/bash
 
 git submodule update --init
+
 mkdir puppet/modules/maven/files
 curl -o puppet/modules/maven/files/apache-maven-3.1.1-bin.tar.gz http://www.trieuvan.com/apache/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz
+
+mkdir puppet/modules/tomcat/files
+curl -o puppet/modules/tomcat/files/apache-tomcat-7.0.55.tar.gz http://mirrors.sonic.net/apache/tomcat/tomcat-7/v7.0.55/bin/apache-tomcat-7.0.55.tar.gz
