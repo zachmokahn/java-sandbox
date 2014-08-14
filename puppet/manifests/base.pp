@@ -5,7 +5,7 @@ class { 'java':
   version      => 'latest',
 }
 
-maven::setup { "maven":
+maven::setup { 'vagrant':
   ensure        => 'present',
   source        => 'apache-maven-3.1.1-bin.tar.gz',
   deploymentdir => '/home/vagrant/apache-maven',
@@ -13,7 +13,7 @@ maven::setup { "maven":
   pathfile      => '/home/vagrant/.bashrc'
 }
 
-tomcat::install { 'tomcat':
+tomcat::install { 'vagrant':
   source        => 'apache-tomcat-7.0.55.tar.gz',
   deploymentdir => '/home/vagrant/apache-tomcat',
   user          => 'vagrant',
@@ -26,13 +26,17 @@ tomcat::install { 'tomcat':
 }
 
 file { '/home/vagrant/apps/warfiles':
-   ensure => 'link',
-   target => '/home/vagrant/apache-tomcat/webapps',
- }
+  owner => 'vagrant',
+  group => 'vagrant',
+  ensure => 'link',
+  target => '/home/vagrant/apache-tomcat/webapps',
+}
 
 file { '/usr/local/bin/catalina':
-   ensure => 'link',
-   target => '/home/vagrant/apache-tomcat/bin/catalina.sh',
+  owner => 'vagrant',
+  group => 'vagrant',
+  ensure => 'link',
+  target => '/home/vagrant/apache-tomcat/bin/catalina.sh',
  }
 
 import "custom.pp"
