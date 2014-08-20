@@ -1,4 +1,5 @@
 include tomcat
+include git
 
 class { 'java':
   distribution => 'jdk',

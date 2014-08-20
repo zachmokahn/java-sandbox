@@ -11,7 +11,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 7990, host: 7990
   config.vm.network :forwarded_port, guest: 5432, host: 5432
 
+  config.ssh.forward_agent
   config.vm.synced_folder 'apps/', '/home/vagrant/apps', :create => true
+
   config.vm.provision "shell", inline: "apt-get update --fix-missing"
 
   config.vm.provision :puppet do |puppet|
