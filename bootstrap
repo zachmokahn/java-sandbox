@@ -17,3 +17,12 @@ fi
 if [ ! -f puppet/modules/tomcat/files/apache-tomcat* ]; then
   curl -o puppet/modules/tomcat/files/apache-tomcat-7.0.55.tar.gz http://mirrors.sonic.net/apache/tomcat/tomcat-7/v7.0.55/bin/apache-tomcat-7.0.55.tar.gz
 fi
+
+
+if [ ! -d puppet/modules/elasticsearch/files/ ]; then
+  mkdir puppet/modules/elasticsearch/files
+fi
+
+if [ ! -f puppet/modules/elasticsearch/files/elasticsearch* ]; then
+  curl -o puppet/modules/elasticsearch/files/elasticsearch-1.3.2.deb https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.2.deb
+fi

@@ -1,0 +1,68 @@
+#!/bin/bash
+
+getEclipse() {
+  if [ ! -d .eclipse ]; then
+    echo "============================================================"
+    echo "making eclipse dir"
+    echo "============================================================"
+    mkdir .eclipse
+  fi
+
+  if [ ! -f .eclipse/eclipse.tar.gz ]; then
+    echo "============================================================"
+    echo "downloading tar"
+    echo "============================================================"
+    local baseURL="http://mirrors.xmission.com/eclipse/"
+    local filepath="technology/epp/downloads/release/"
+    local release="luna/R/eclipse-standard-luna-R-linux-gtk-x86_64.tar.gz"
+    local route="$baseURL$filepath$release"
+    echo "============================================================"
+    echo $route
+    echo "============================================================"
+    cd /home/vagrant/.eclipse
+    echo "============================================================"
+    echo $PWD
+    echo "============================================================"
+
+    curl -o eclipse.tar.gz $route
+  fi
+
+  if [ ! -d /opt/eclipse ]; then
+    echo "============================================================"
+    echo "============================================================"
+    echo 'building eclipse'
+    echo "============================================================"
+    echo "============================================================"
+    cd /home/vagrant/.eclipse
+    tar -zxvf eclipse.tar.gz
+    echo "============================================================"
+    echo 'moving eclipse'
+    echo "============================================================"
+    sudo mv eclipse /opt
+    if [[ -f /opt/eclipse/eclipse && ! -f /usr/bin/eclipse ]]; then
+      ln -s /opt/eclipse/eclipse /usr/bin/eclipse
+    fi
+  fi
+}
+
+getANT() {
+  cd /home/vagrant/.eclipse
+  if [ ! -d ant ]; then
+    if [ ! -f ant.tar.gz ]; then
+      curl -o ant.tar.gz http://mirror.tcpdiag.net/apache//ant/binaries/apache-ant-1.9.4-bin.tar.gz
+    fi
+    tar -zxvf ant.tar.gz
+    mv apache-ant-1.9.4 ant
+  fi
+}
+
+getEclim() {
+  cd /home/vagrant/.eclipse
+  if [ ! -d eclim ]; then
+    git clone git://github.com/ervandew/eclim.git
+  fi
+  cd eclim
+  sudo /home/vagrant/.eclipse/ant/bin/ant -Dvim.files=/home/vagrant/.vim -Declipse.home=/opt/eclipse
+}
+
+getEclipse && getANT && getEclim

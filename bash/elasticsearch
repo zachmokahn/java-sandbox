@@ -1,0 +1,25 @@
+#!/bin/bash
+
+getElasticSearch() {
+  echo 'installing elastic search'
+  local version="1.1.1"
+  local elasticSearch="elasticsearch-$version.deb"
+
+  if [ ! -f /etc/init.d/elasticsearch ]; then
+    echo 'downloading elasticsearch'
+    wget -q https://download.elasticsearch.org/elasticsearch/elasticsearch/$elasticSearch
+    sudo dpkg -i $elasticSearch
+  fi
+
+  if [ ! -f /usr/local/bin/elasticsearch ]; then
+    echo 'simlinking elastic search'
+    ln -s /etc/init.d/elasticsearch /usr/local/bin/elasticsearch
+  fi
+
+  if [[ -f /etc/init.d/elasticsearch && -f $elasticSearch ]]; then
+    echo 'destroying elasticsearch package file'
+    rm -rf $elasticSearch
+  fi
+}
+
+getElasticSearch

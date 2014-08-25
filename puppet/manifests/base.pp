@@ -1,43 +1,18 @@
-include tomcat
-include git
+import "configs.unix.pp"
+import "configs.git.pp"
 
-class { 'java':
-  distribution => 'jdk',
-  version      => 'latest',
-}
+import "configs.java.pp"
+import "configs.maven.pp"
+import "configs.tomcat.pp"
 
-maven::setup { 'vagrant':
-  ensure        => 'present',
-  source        => 'apache-maven-3.1.1-bin.tar.gz',
-  deploymentdir => '/home/vagrant/apache-maven',
-  user          => 'vagrant',
-  pathfile      => '/home/vagrant/.bashrc'
-}
+import "configs.ruby.pp"
 
-tomcat::install { 'vagrant':
-  source        => 'apache-tomcat-7.0.55.tar.gz',
-  deploymentdir => '/home/vagrant/apache-tomcat',
-  user          => 'vagrant',
-  group         => 'vagrant',
-  default_webapp_docs        => 'present',
-  default_webapp_examples    => 'present',
-  default_webapp_hostmanager => 'present',
-  default_webapp_manager     => 'present',
-  default_webapp_root        => 'present'
-}
+import "configs.node.pp"
 
-file { '/home/vagrant/apps/warfiles':
-  owner => 'vagrant',
-  group => 'vagrant',
-  ensure => 'link',
-  target => '/home/vagrant/apache-tomcat/webapps',
-}
-
-file { '/usr/local/bin/catalina':
-  owner => 'vagrant',
-  group => 'vagrant',
-  ensure => 'link',
-  target => '/home/vagrant/apache-tomcat/bin/catalina.sh',
- }
+import "configs.mongodb.pp"
+import "configs.postgres.pp"
+import "configs.mysql.pp"
+import "configs.sqlite.pp"
+import "configs.memecached.pp"
 
 import "custom.pp"

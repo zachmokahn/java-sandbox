@@ -1,0 +1,52 @@
+#!/bin/bash
+home="/home/vagrant"
+
+getDotfiles() {
+  echo 'installing dotfiles'
+  local repo="https://github.com/zachmokahn/dotfiles.git"
+
+  if [ -f $home/.zlogin ]; then
+    rm $home/.zlogin
+  fi
+
+  if [ -f $home/.zshrc ]; then
+    rm $home/.zshrc
+  fi
+
+  if [ ! -d $home/.dotfiles ]; then
+    sudo -u vagrant git clone $repo .dotfiles
+    cd .dotfiles
+    sudo -u vagrant git submodule update --init
+  fi
+
+  if [ ! -f /usr/local/bin/rcup ]; then
+    echo "downloading rcm"
+    wget https://thoughtbot.github.io/rcm/debs/rcm_1.2.3-1_all.deb
+    echo "unpacking rcm"
+    sudo dpkg -i rcm_1.2.3-1_all.deb
+  fi
+
+
+  if [ -f rcm_1.2.3-1_all.deb ]; then
+    echo "removing rcm package"
+    rm rcm_1.2.3-1_all.deb
+  fi
+}
+
+provisionDotfiles() {
+  local theme="skwp.vim"
+  local powerLinePlugin="$home/.vim/bundle/vim-powerline/plugin/$theme"
+  local oldHome=$HOME
+
+  if [ -d $home/.dotfiles ]; then
+    export HOME=$home
+    sudo -u vagrant rcup -d /home/vagrant/.dotfiles -v
+    export HOME=$oldHome
+  fi
+
+  if [ ! -f $powerLinePlugin ]; then
+    cp $home/.dotfiles/plugins/$theme $powerLinePlugin
+  fi
+}
+
+getDotfiles && provisionDotfiles
