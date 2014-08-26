@@ -63,6 +63,18 @@ getEclim() {
   fi
   cd eclim
   sudo /home/vagrant/.eclipse/ant/bin/ant -Dvim.files=/home/vagrant/.vim -Declipse.home=/opt/eclipse
+  if [[ -f /opt/eclipse/eclimd && ! -f /usr/bin/eclimd ]]; then
+    ln -s /opt/eclipse/eclimd /usr/bin/eclimd
+  fi
+  if [ ! -f /usr/bin/Xvfb ]; then
+    sudo apt-get install xvfb
+  fi
+  local shortcut=$(grep "eclimd" /home/vagrant/.aliases/aliases.unix)
+  if [ -z $shortcut ]; then
+    echo "alias hs='Xvfb :1 -screen 0 1024x768x24 &'" >> /home/vagrant/.aliases/aliases.unix
+    echo "alias ks=\"kill $(ps -ef | grep Xvfb | awk '{print $2}')\"" >> /home/vagrant/.aliases/aliases.unix
+    echo "alias eclim='DISPLAY=:1 /opt/eclipse/eclimd'" >> /home/vagrant/.aliases/aliases.unix
+  fi
 }
 
 getEclipse && getANT && getEclim

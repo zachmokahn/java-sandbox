@@ -8,8 +8,10 @@ BOX_IP = '192.168.50.4'
 Vagrant.configure(VERSION) do |config|
   config.vm.box = BOX
 
+  config.vm.network 'private_network', ip: BOX_IP
+
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "4096"]
+    vb.customize ["modifyvm", :id, "--memory", "4096", "--natdnshostresolver1", "on"]
   end
 
   # Tons of Ports Forwarded because Yolo
@@ -22,8 +24,7 @@ Vagrant.configure(VERSION) do |config|
 
   # Set IP of the Box for Sharing Keys
   # * run this in your shell to allow the box to share your keys
-  #     $ echo "Host #{BOX_IP}\n\tForwardAgent yes\n" > .ssh/config
-  config.vm.network 'private_network', ip: BOX_IP
+  #     $ echo "Host #{BOX_IP}\n\tForwardAgent yes\n" >> .ssh/config
   config.ssh.forward_agent = true
 
   # Folder Shared between Machines
